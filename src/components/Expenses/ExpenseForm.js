@@ -7,7 +7,6 @@ const ExpenseForm = (props) => {
     const [enteredAmount, setEnteredAmount] = useState('');
     const [enteredDate, setEnteredDate] = useState('');
     const [enteredLocation, setEnteredLocation] = useState('');
-    const [enableEdit, setEnableEdit] = useState(false);
 
     const titleChangeHandler = (event) => {
         setEnteredTitle(event.target.value);
@@ -26,16 +25,13 @@ const ExpenseForm = (props) => {
         setEnteredLocation(event.target.value);
       };
     
-      const toggleEdit = () => {
-        setEnableEdit(!enableEdit);
-    };
-
+    
     const submitHandler = (event) => {
         event.preventDefault();
 
         const expenseData = {
             title: enteredTitle,
-            amount : enteredAmount,
+            amount : +enteredAmount,
             date: new Date(enteredDate),
             LocationOfExpenditure : enteredLocation
         }
@@ -49,11 +45,6 @@ const ExpenseForm = (props) => {
       };
  
     return(
-        <div className="new-expense">
-        {!enableEdit && (
-            <button onClick={toggleEdit}>Add New Expense</button>
-        )}
-        {enableEdit && (
             <form className="new-expense" onSubmit={submitHandler}> 
             <div className="new-expense__controls">
                 <div className="new-expense__control">
@@ -90,14 +81,10 @@ const ExpenseForm = (props) => {
                 </div>
             </div>
             <div className="new-expense__actions">
-            <button type="button" onClick={toggleEdit}>Cancel</button>
+              <button type="button" onClick={props.onCancel}>Cancel</button>
               <button type="submit">Add Expense</button>
             </div>
         </form>
-        )}
-
-        </div>
-       
     );
 };
 export default ExpenseForm;
