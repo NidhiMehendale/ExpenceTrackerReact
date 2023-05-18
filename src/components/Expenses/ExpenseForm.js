@@ -7,6 +7,7 @@ const ExpenseForm = (props) => {
     const [enteredAmount, setEnteredAmount] = useState('');
     const [enteredDate, setEnteredDate] = useState('');
     const [enteredLocation, setEnteredLocation] = useState('');
+    const [enableEdit, setEnableEdit] = useState(false);
 
     const titleChangeHandler = (event) => {
         setEnteredTitle(event.target.value);
@@ -24,6 +25,10 @@ const ExpenseForm = (props) => {
     const LocationChangeHandler = (event) => {
         setEnteredLocation(event.target.value);
       };
+    
+      const toggleEdit = () => {
+        setEnableEdit(!enableEdit);
+    };
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -42,10 +47,14 @@ const ExpenseForm = (props) => {
         setEnteredDate('');
 
       };
-
-    
+ 
     return(
-        <form className="new-expense" onSubmit={submitHandler}> 
+        <div className="new-expense">
+        {!enableEdit && (
+            <button onClick={toggleEdit}>Add New Expense</button>
+        )}
+        {enableEdit && (
+            <form className="new-expense" onSubmit={submitHandler}> 
             <div className="new-expense__controls">
                 <div className="new-expense__control">
                 <label>Title</label>
@@ -81,9 +90,14 @@ const ExpenseForm = (props) => {
                 </div>
             </div>
             <div className="new-expense__actions">
-            <button type="submit">Add Expense</button>
+            <button type="button" onClick={toggleEdit}>Cancel</button>
+              <button type="submit">Add Expense</button>
             </div>
         </form>
+        )}
+
+        </div>
+       
     );
 };
 export default ExpenseForm;
